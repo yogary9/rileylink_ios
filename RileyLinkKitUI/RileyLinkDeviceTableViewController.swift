@@ -10,6 +10,7 @@ import UIKit
 import LoopKitUI
 import RileyLinkBLEKit
 import RileyLinkKit
+import OmniKit
 
 let CellIdentifier = "Cell"
 

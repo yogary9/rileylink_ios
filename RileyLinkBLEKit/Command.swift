@@ -263,7 +263,6 @@ struct SetPreamble: Command {
         var data = Data(bytes: [RileyLinkCommand.setPreamble.rawValue])
         data.appendBigEndian(preambleValue)
         return data
-        
     }
 }
 

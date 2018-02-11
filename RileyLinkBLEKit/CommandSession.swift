@@ -156,12 +156,13 @@ public struct CommandSession {
     ///   - data: The data to send
     ///   - repeatCount: The number of times to repeat the message before listening begins
     ///   - timeout: The length of time to listen for a response before timing out
-    ///   - retryCount: The number of times to repeat the send & listen sequence
+    ///   - retryCount: The number of times to repeat the send & listen sequence if no response is heard
+    ///   - preambleExtension: If set, the length of time to continuously send preamble data. Overrides the register based preamble settings.
     /// - Returns: The packet reply
     /// - Throws: RileyLinkDeviceError
-    public func sendAndListen(_ data: Data, repeatCount: Int, timeout: TimeInterval, retryCount: Int) throws -> RFPacket? {
+    public func sendAndListen(_ data: Data, repeatCount: Int, timeout: TimeInterval, retryCount: Int, preambleExtension: TimeInterval?) throws -> RFPacket? {
         let delayBetweenPackets: TimeInterval = 0
-
+        
         let command = SendAndListen(
             outgoing: data,
             sendChannel: 0,
@@ -170,7 +171,7 @@ public struct CommandSession {
             listenChannel: 0,
             timeoutMS: UInt32(clamping: Int(timeout.milliseconds)),
             retryCount: UInt8(clamping: retryCount),
-            preambleExtensionMS: 0,
+            preambleExtensionMS: UInt16(clamping: Int(preambleExtension?.milliseconds ?? 0)),
             firmwareVersion: firmwareVersion
         )
 
@@ -185,6 +186,19 @@ public struct CommandSession {
 
         return try writeCommand(command, timeout: totalTimeout)
     }
+    
+    /// Sends data to the pump, listening for a reply
+    ///
+    /// - Parameters:
+    ///   - data: The data to send
+    ///   - repeatCount: The number of times to repeat the message before listening begins
+    ///   - timeout: The length of time to listen for a response before timing out
+    ///   - retryCount: The number of times to repeat the send & listen sequence if no response is heard
+    /// - Returns: The packet reply
+    /// - Throws: RileyLinkDeviceError
+    public func sendAndListen(_ data: Data, repeatCount: Int, timeout: TimeInterval, retryCount: Int) throws -> RFPacket? {
+        return try sendAndListen(data, repeatCount: repeatCount, timeout: timeout, retryCount: retryCount, preambleExtension: nil)
+    }
 
     /// - Throws: RileyLinkDeviceError
     public func listen(onChannel channel: Int, timeout: TimeInterval) throws -> RFPacket? {
@@ -197,19 +211,23 @@ public struct CommandSession {
     }
 
     /// - Throws: RileyLinkDeviceError
-    public func send(_ data: Data, onChannel channel: Int, timeout: TimeInterval) throws {
+    public func send(_ data: Data, onChannel channel: Int, timeout: TimeInterval, repeatCount: Int = 0, delayBetweenPackets: TimeInterval = TimeInterval(0), preambleExtension: TimeInterval? = nil) throws {
         let command = SendPacket(
             outgoing: data,
             sendChannel: UInt8(clamping: channel),
-            repeatCount: 0,
-            delayBetweenPacketsMS: 0,
-            preambleExtensionMS: 0,
+            repeatCount: UInt8(clamping: repeatCount),
+            delayBetweenPacketsMS: UInt16(delayBetweenPackets.milliseconds),
+            preambleExtensionMS: UInt16(clamping: Int(preambleExtension?.milliseconds ?? 0)),
             firmwareVersion: firmwareVersion
         )
 
         _ = try writeCommand(command, timeout: timeout)
     }
     
+    public func send(_ data: Data, onChannel channel: Int, timeout: TimeInterval) throws {
+        try send(data, onChannel: channel, timeout: timeout)
+    }
+
     /// - Throws: RileyLinkDeviceError
     public func setSoftwareEncoding(_ swEncodingType: SoftwareEncodingType) throws {
         guard firmwareVersion.supportsSoftwareEncoding else {
@@ -225,12 +243,14 @@ public struct CommandSession {
         }
     }
     
+    /// - Throws: RileyLinkDeviceError
     public func resetRadioConfig() throws {
         guard firmwareVersion.supportsResetRadioConfig else {
             return
         }
         
         let command = ResetRadioConfig()
+
         _ = try writeCommand(command, timeout: 0)
     }
     
@@ -243,5 +263,16 @@ public struct CommandSession {
         let response: GetStatisticsResponse = try writeCommand(command, timeout: 0)
         
         return response.statistics
+    }
+
+    /// - Throws: RileyLinkDeviceError
+    public func setPreamble(_ preambleValue: UInt16) throws {
+        guard firmwareVersion.supportsCustomPreamble else {
+            throw RileyLinkDeviceError.unsupportedCommand(.setPreamble)
+        }
+        
+        let command = SetPreamble(preambleValue)
+        
+        _ = try writeCommand(command, timeout: 0)
     }
 }

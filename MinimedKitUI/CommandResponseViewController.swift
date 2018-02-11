@@ -11,6 +11,7 @@ import LoopKitUI
 import MinimedKit
 import RileyLinkKit
 import RileyLinkBLEKit
+import OmniKit
 
 
 extension CommandResponseViewController {
@@ -296,6 +297,25 @@ extension CommandResponseViewController {
             return NSLocalizedString("Reading pump status…", comment: "Progress message for reading pump status")
         }
     }
+    
+    static func omniGetStatus(podComms: PodComms, device: RileyLinkDevice) -> T {
+        return T { (completionHandler) -> String in
+            podComms.runSession(withName: "Get Omnipod Status", using: device, { (session) in
+                let response: String
+                do {
+                    let result = try session.getStatus()
+                    response = String(describing: result)
+                } catch let error {
+                    response = String(describing: error)
+                }
+                DispatchQueue.main.async {
+                    completionHandler(response)
+                }
+            })
+            return NSLocalizedString("Reading pump status…", comment: "Progress message for reading pump status")
+        }
+    }
+
 
     static func tuneRadio(ops: PumpOps?, device: RileyLinkDevice, current: Measurement<UnitFrequency>?, measurementFormatter: MeasurementFormatter) -> T {
         return T { (completionHandler) -> String in

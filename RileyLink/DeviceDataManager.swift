@@ -143,7 +143,7 @@ class DeviceDataManager {
         if Config.sharedInstance().uploadEnabled {
             rileyLinkManager.getDevices { (devices) in
                 if let device = devices.firstConnected {
-                    self.assertCurrentPumpData(from: device)
+                    //self.assertCurrentPumpData(from: device)
                 }
             }
         }
