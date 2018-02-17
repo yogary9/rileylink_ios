@@ -7,12 +7,14 @@
 
 import Foundation
 import MinimedKit
-
+import RileyLinkKit
+import OmniKit
 
 extension UserDefaults {
     private enum Key: String {
         case pumpSettings = "com.rileylink.pumpSettings"
         case pumpState = "com.rileylink.pumpState"
+        case podState = "com.rileylink.podState"
     }
 
     var pumpSettings: PumpSettings? {
@@ -39,6 +41,19 @@ extension UserDefaults {
         }
         set {
             set(newValue?.rawValue, forKey: Key.pumpState.rawValue)
+        }
+    }
+    
+    var podState: PodState? {
+        get {
+            guard let raw = dictionary(forKey: Key.podState.rawValue) else {
+                return nil
+            }
+            
+            return PodState(rawValue: raw)
+        }
+        set {
+            set(newValue?.rawValue, forKey: Key.podState.rawValue)
         }
     }
 }

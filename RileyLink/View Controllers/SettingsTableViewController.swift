@@ -11,6 +11,7 @@ import LoopKitUI
 import MinimedKit
 import RileyLinkKit
 import RileyLinkKitUI
+import OmniKit
 
 private let ConfigCellIdentifier = "ConfigTableViewCell"
 
