@@ -76,6 +76,7 @@ public struct CommandSession {
     let manager: PeripheralManager
     let responseType: PeripheralManager.ResponseType
     let firmwareVersion: RadioFirmwareVersion
+    let radioConfigName: String?
 
     /// Invokes a command expecting a response
     ///
