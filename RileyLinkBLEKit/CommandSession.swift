@@ -232,7 +232,7 @@ public struct CommandSession {
     /// - Throws: RileyLinkDeviceError
     public func setSoftwareEncoding(_ swEncodingType: SoftwareEncodingType) throws {
         guard firmwareVersion.supportsSoftwareEncoding else {
-            throw RileyLinkDeviceError.unsupportedCommand(.setSWEncoding)
+            throw RileyLinkDeviceError.unsupportedCommand
         }
         
         let command = SetSoftwareEncoding(swEncodingType)
@@ -269,7 +269,7 @@ public struct CommandSession {
     /// - Throws: RileyLinkDeviceError
     public func setPreamble(_ preambleValue: UInt16) throws {
         guard firmwareVersion.supportsCustomPreamble else {
-            throw RileyLinkDeviceError.unsupportedCommand(.setPreamble)
+            throw RileyLinkDeviceError.unsupportedCommand
         }
         
         let command = SetPreamble(preambleValue)
