@@ -15,6 +15,7 @@ extension UserDefaults {
         case pumpSettings = "com.rileylink.pumpSettings"
         case pumpState = "com.rileylink.pumpState"
         case podState = "com.rileylink.podState"
+        case podSettings = "com.rileylink.podSettings"
     }
 
     var pumpSettings: PumpSettings? {
@@ -54,6 +55,19 @@ extension UserDefaults {
         }
         set {
             set(newValue?.rawValue, forKey: Key.podState.rawValue)
+        }
+    }
+    
+    var podSettings: PodSettings? {
+        get {
+            guard let raw = dictionary(forKey: Key.podSettings.rawValue) else {
+                return nil
+            }
+            
+            return PodSettings(rawValue: raw)
+        }
+        set {
+            set(newValue?.rawValue, forKey: Key.podSettings.rawValue)
         }
     }
 }
