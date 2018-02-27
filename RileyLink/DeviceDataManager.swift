@@ -39,7 +39,6 @@ class DeviceDataManager {
     }
     
     let podComms: PodComms
-    let podSettings: PodSettings
     
     private(set) var pumpSettings: PumpSettings? {
         get {
@@ -384,13 +383,10 @@ class DeviceDataManager {
 
         var idleListeningEnabled = true
         
-        podSettings = UserDefaults.standard.podSettings ?? PodSettings()
-
         let podState = UserDefaults.standard.podState
-        podComms = PodComms(podSettings: podSettings, podState: podState)
+        podComms = PodComms(podState: podState)
         
         podComms.delegate = self
-        podSettings.delegate = self
 
         if let pumpSettings = UserDefaults.standard.pumpSettings {
             idleListeningEnabled = self.pumpState?.pumpModel?.hasMySentry ?? true
@@ -432,8 +428,3 @@ extension DeviceDataManager: PodCommsDelegate {
     }
 }
 
-extension DeviceDataManager: PodSettingsDelegate {
-    func podSettingsChanged(_ podSettings: PodSettings) {
-        UserDefaults.standard.podSettings = podSettings
-    }
-}
