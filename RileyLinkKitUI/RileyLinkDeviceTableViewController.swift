@@ -231,7 +231,6 @@ public class RileyLinkDeviceTableViewController: UITableViewController {
                 cell.detailTextLabel?.text = device.peripheralState.description
             case .rssi:
                 cell.textLabel?.text = NSLocalizedString("Signal Strength", comment: "The title of the cell showing BLE signal strength (RSSI)")
-
                 cell.setDetailRSSI(bleRSSI, formatter: integerFormatter)
             case .idleStatus:
                 cell.textLabel?.text = NSLocalizedString("On Idle", comment: "The title of the cell showing the last idle")
