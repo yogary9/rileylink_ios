@@ -11,6 +11,7 @@ import MinimedKit
 import RileyLinkBLEKit
 
 
+
 protocol PumpOpsSessionDelegate: class {
     func pumpOpsSession(_ session: PumpOpsSession, didChange state: PumpState)
 }
@@ -40,18 +41,11 @@ public class PumpOpsSession {
 // MARK: - Wakeup and power
 extension PumpOpsSession {
     private static let minimumTimeBetweenWakeAttempts = TimeInterval(minutes: 1)
+    
+    private static let pumpWakeDuration = TimeInterval(seconds: 100)
 
-    /// Attempts to send initial short wakeup message that kicks off the wakeup process.
-    ///
-    /// If successful, still does not fully wake up the pump - only alerts it such that the longer wakeup message can be sent next.
-    ///
-    /// - Throws:
-    ///     - PumpCommandError.command containing:
-    ///         - PumpOpsError.crosstalk
-    ///         - PumpOpsError.deviceError
-    ///         - PumpOpsError.noResponse
-    ///         - PumpOpsError.unexpectedResponse
-    ///         - PumpOpsError.unknownResponse
+    /// Wakes the pump.
+    
     private func sendWakeUpBurst() throws {
         // Skip waking up if we recently tried
         guard pump.lastWakeAttempt == nil || pump.lastWakeAttempt!.timeIntervalSinceNow <= -PumpOpsSession.minimumTimeBetweenWakeAttempts
@@ -63,28 +57,18 @@ extension PumpOpsSession {
 
         let shortPowerMessage = PumpMessage(settings: settings, type: .powerOn)
 
-        if pump.pumpModel == nil || !pump.pumpModel!.hasMySentry {
-            // Older pumps have a longer sleep cycle between wakeups, so send an initial burst
-            do {
-                let _: PumpAckMessageBody = try session.getResponse(to: shortPowerMessage, repeatCount: 255, timeout: .milliseconds(1), retryCount: 0)
-            }
-            catch { }
-        }
-
+        // 130 packets takes a little over 2s which is the pump's listen cycle when meter or remote are enabled.
+        // Then we wait 9s, as the pump is non-responsive until 9s after wake
+        // During this 9s we see more power usage than normal rx. Then it drops, and the pump is responsive.
         do {
-            let _: PumpAckMessageBody = try session.getResponse(to: shortPowerMessage, repeatCount: 255, timeout: .seconds(12), retryCount: 0)
-        } catch let error as PumpOpsError {
-            throw PumpCommandError.command(error)
+            let _: PumpAckMessageBody = try session.getResponse(to: shortPowerMessage, repeatCount: 130, timeout: .seconds(9), retryCount: 0)
+        } catch {
+            // We don't actually expect a response here.
         }
     }
 
-    private func isPumpResponding() -> Bool {
-        do {
-            let _: GetPumpModelCarelinkMessageBody = try session.getResponse(to: PumpMessage(settings: settings, type: .getPumpModel), responseType: .getPumpModel, retryCount: 1)
-            return true
-        } catch {
-            return false
-        }
+    private func extendPumpAwakeTime() {
+        pump.awakeUntil = Date(timeIntervalSinceNow: PumpOpsSession.pumpWakeDuration)
     }
 
     /// - Throws:
@@ -100,32 +84,10 @@ extension PumpOpsSession {
             return
         }
 
-        // Send a short message to the pump to see if its radio is still powered on
-        if isPumpResponding() {
-            // TODO: Convert logging
-            NSLog("Pump responding despite our wake timer having expired. Extending timer")
-            // By my observations, the pump stays awake > 1 minute past last comms. Usually
-            // About 1.5 minutes, but we'll make it a minute to be safe.
-            pump.awakeUntil = Date(timeIntervalSinceNow: TimeInterval(minutes: 1))
-            return
-        }
-
         // Command
         try sendWakeUpBurst()
 
-        // Arguments
-        do {
-            let longPowerMessage = PumpMessage(settings: settings, type: .powerOn, body: PowerOnCarelinkMessageBody(duration: duration))
-            let _: PumpAckMessageBody = try session.getResponse(to: longPowerMessage)
-        } catch let error as PumpOpsError {
-            throw PumpCommandError.arguments(error)
-        } catch {
-            assertionFailure()
-        }
-
-        // TODO: Convert logging
-        NSLog("Power on for %.0f minutes", duration.minutes)
-        pump.awakeUntil = Date(timeIntervalSinceNow: duration)
+        extendPumpAwakeTime()
     }
 }
 
