@@ -40,8 +40,7 @@ class MessageTests: XCTestCase {
             XCTAssertEqual(6.3, statusResponse.insulin, accuracy: 0.01)
             XCTAssertEqual(0, statusResponse.insulinNotDelivered)
             XCTAssertEqual(3, statusResponse.podMessageCounter)
-            XCTAssertEqual(.normal, statusResponse.ageStatus)
-
+            XCTAssert(statusResponse.alarms.isEmpty)
 
             XCTAssertEqual("1f00ee84300a1d18003f1800004297ff8128", msg.encoded().hexadecimalString)
         } catch (let error) {
@@ -219,6 +218,20 @@ class MessageTests: XCTestCase {
         // Encode
         let cmd = BolusExtraCommand(units: 2.6, byte2: 0, unknownSection: Data(hexadecimalString: "000186a0")!)
         XCTAssertEqual("170d000208000186a0000000000000", cmd.data.hexadecimalString)
-    }    
+    }
+    
+    func testStatusResponseAlarmsParsing() {
+        // 1d 28 0082 00 0044 46eb ff
+        
+        do {
+            // Decode
+            let status = try StatusResponse(encodedData: Data(hexadecimalString: "1d28008200004446ebff")!)
+            XCTAssert(status.alarms.contains(.oneHourExpiry))
+            XCTAssert(status.alarms.contains(.podExpired))
+        } catch (let error) {
+            XCTFail("message decoding threw error: \(error)")
+        }
+
+    }
 }
 
