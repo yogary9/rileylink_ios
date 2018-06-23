@@ -28,7 +28,7 @@ public struct BasalSchedule {
     }
 
     func lookup(offset: TimeInterval) -> (Int, BasalScheduleEntry, TimeInterval) {
-        guard offset > 0 && offset < .hours(24) else {
+        guard offset >= 0 && offset < .hours(24) else {
             fatalError("Schedule offset out of bounds")
         }
         
