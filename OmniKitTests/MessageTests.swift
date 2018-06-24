@@ -231,6 +231,56 @@ class MessageTests: XCTestCase {
         } catch (let error) {
             XCTFail("message decoding threw error: \(error)")
         }
+    }
+    
+    func testConfigureAlertsCommand() {
+        // 79a4 10df 0502
+        // Pod expires 1 minute short of 3 days
+        let podSoftExpirationTime = TimeInterval(hours:72) - TimeInterval(minutes:1)
+        let alertConfig1 = ConfigureAlertsCommand.AlertConfiguration(alertType: .timerLimit, audible: true, autoOffModifier: false, duration: .hours(7), expirationType: .time(podSoftExpirationTime), beepType: 0x0502)
+        XCTAssertEqual("79a410df0502", alertConfig1.data.hexadecimalString)
+
+        // 2800 1283 0602
+        let podHardExpirationTime = TimeInterval(hours:79) - TimeInterval(minutes:1)
+        let alertConfig2 = ConfigureAlertsCommand.AlertConfiguration(alertType: .endOfService, audible: true, autoOffModifier: false, duration: .minutes(0), expirationType: .time(podHardExpirationTime), beepType: 0x0602)
+        XCTAssertEqual("280012830602", alertConfig2.data.hexadecimalString)
+
+        // 020f 0000 0202
+        let alertConfig3 = ConfigureAlertsCommand.AlertConfiguration(alertType: .autoOff, audible: false, autoOffModifier: true, duration: .minutes(15), expirationType: .time(0), beepType: 0x0202)
+        XCTAssertEqual("020f00000202", alertConfig3.data.hexadecimalString)
+        
+        let configureAlerts = ConfigureAlertsCommand(nonce: 0xfeb6268b, configurations:[alertConfig1, alertConfig2, alertConfig3])
+        XCTAssertEqual("1916feb6268b79a410df0502280012830602020f00000202", configureAlerts.data.hexadecimalString)
+        
+        do {
+            let decoded = try ConfigureAlertsCommand(encodedData: Data(hexadecimalString: "1916feb6268b79a410df0502280012830602020f00000202")!)
+            XCTAssertEqual(3, decoded.configurations.count)
+            
+            let config1 = decoded.configurations[0]
+            XCTAssertEqual(.timerLimit, config1.alertType)
+            XCTAssertEqual(true, config1.audible)
+            XCTAssertEqual(false, config1.autoOffModifier)
+            XCTAssertEqual(.hours(7), config1.duration)
+            if case ConfigureAlertsCommand.ExpirationType.time(let duration) = config1.expirationType {
+                XCTAssertEqual(podSoftExpirationTime, duration)
+            }
+            XCTAssertEqual(0x0502, config1.beepType)
+            
+            let cfg = try ConfigureAlertsCommand.AlertConfiguration(encodedData: Data(hexadecimalString: "4c0000640102")!)
+            XCTAssertEqual(.lowReservoir, cfg.alertType)
+            XCTAssertEqual(true, cfg.audible)
+            XCTAssertEqual(false, cfg.autoOffModifier)
+            XCTAssertEqual(0, cfg.duration)
+            if case ConfigureAlertsCommand.ExpirationType.reservoir(let volume) = cfg.expirationType {
+                XCTAssertEqual(10, volume)
+            }
+            XCTAssertEqual(0x0102, cfg.beepType)
+
+
+        } catch (let error) {
+            XCTFail("message decoding threw error: \(error)")
+        }
+
 
     }
 }
