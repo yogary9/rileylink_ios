@@ -253,7 +253,7 @@ public struct CommandSession {
     
     public func getRileyLinkStatistics() throws -> RileyLinkStatistics {
         guard firmwareVersion.supportsRileyLinkStatistics else {
-            throw RileyLinkDeviceError.unsupportedCommand(.getStatistics)
+            throw RileyLinkDeviceError.unsupportedCommand
         }
         
         let command = GetStatistics()
