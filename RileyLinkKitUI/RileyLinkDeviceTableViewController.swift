@@ -288,8 +288,6 @@ public class RileyLinkDeviceTableViewController: UITableViewController {
             }
         case .commands:
             break
-        case .pod:
-            break
         }
     }
 }
