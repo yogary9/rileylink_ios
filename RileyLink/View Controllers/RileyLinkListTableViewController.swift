@@ -22,7 +22,10 @@ class RileyLinkListTableViewController: UITableViewController, DeviceConnectionP
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 44
+        
         tableView.register(RileyLinkDeviceTableViewCell.self, forCellReuseIdentifier: RileyLinkDeviceTableViewCell.className)
         tableView.register(SettingsImageTableViewCell.self, forCellReuseIdentifier: SettingsImageTableViewCell.className)
         tableView.register(TextButtonTableViewCell.self, forCellReuseIdentifier: TextButtonTableViewCell.className)
@@ -67,6 +70,7 @@ class RileyLinkListTableViewController: UITableViewController, DeviceConnectionP
         super.viewDidAppear(animated)
         
         devicesDataSource.isScanningEnabled = true
+
     }
 
     override func viewWillDisappear(_ animated: Bool) {
