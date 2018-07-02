@@ -25,7 +25,6 @@ extension MinimedPumpManager: PumpManagerUI {
     }
 }
 
-
 // MARK: - DeliveryLimitSettingsTableViewControllerSyncSource
 extension MinimedPumpManager {
     public func syncDeliveryLimitSettings(for viewController: DeliveryLimitSettingsTableViewController, completion: @escaping (DeliveryLimitSettingsResult) -> Void) {

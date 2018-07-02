@@ -27,7 +27,7 @@ public class MinimedPumpManagerSetupViewController: RileyLinkManagerSetupViewCon
         navigationBar.shadowImage = UIImage()
     }
     
-    private(set) var pumpManager: MinimedPumpManager?
+    var pumpManager: MinimedPumpManager?
 
     /*
      1. RileyLink
@@ -51,7 +51,7 @@ public class MinimedPumpManagerSetupViewController: RileyLinkManagerSetupViewCon
 
     override public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         super.navigationController(navigationController, willShow: viewController, animated: animated)
-
+        
         // Read state values
         let viewControllers = navigationController.viewControllers
         let count = navigationController.viewControllers.count

@@ -9,11 +9,14 @@
 import UIKit
 import CoreData
 import RileyLinkKit
+import RileyLinkBLEKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    
+    private(set) lazy var rileyLinkDeviceManager = RileyLinkDeviceManager(autoConnectIDs: [])
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let logFileURL = applicationDocumentsDirectory().appendingPathComponent("logfile.txt")
@@ -29,6 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DispatchQueue.main.asyncAfter(deadline: delayTime) {
             _ = DeviceDataManager.sharedManager
         }
+        
+        if  let navVC = window?.rootViewController as? UINavigationController,
+            let mainVC = navVC.viewControllers.first as? RileyLinkListTableViewController {
+            mainVC.rileyLinkManager = rileyLinkDeviceManager
+        }
+
         
         return true
     }

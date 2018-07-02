@@ -16,7 +16,7 @@ import LoopKit
 import LoopKitUI
 
 
-class RileyLinkListTableViewController: UITableViewController {
+class RileyLinkListTableViewController: UITableViewController, DeviceConnectionPreferenceDelegate {
 
     private lazy var numberFormatter = NumberFormatter()
     
@@ -27,6 +27,7 @@ class RileyLinkListTableViewController: UITableViewController {
         tableView.register(SettingsImageTableViewCell.self, forCellReuseIdentifier: SettingsImageTableViewCell.className)
         tableView.register(TextButtonTableViewCell.self, forCellReuseIdentifier: TextButtonTableViewCell.className)
         
+        devicesDataSource.connectionPreferenceDelegate = self
         devicesDataSource.tableView = tableView
     }
     
@@ -40,11 +41,11 @@ class RileyLinkListTableViewController: UITableViewController {
         case addPod
     }
     
-    let rileyLinkPumpManager = RileyLinkPumpManager(rileyLinkPumpManagerState: RileyLinkPumpManagerState(connectedPeripheralIDs: []))
+    weak var rileyLinkManager: RileyLinkDeviceManager!
     
     private lazy var devicesDataSource: RileyLinkDevicesTableViewDataSource = {
         return RileyLinkDevicesTableViewDataSource(
-            rileyLinkPumpManager: rileyLinkPumpManager,
+            rileyLinkManager: rileyLinkManager,
             devicesSectionIndex: Section.devices.rawValue
         )
     }()
@@ -133,11 +134,6 @@ class RileyLinkListTableViewController: UITableViewController {
         return devicesDataSource.tableView(tableView, estimatedHeightForHeaderInSection: section)
     }
 
-//    public override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
-
-
     
     // MARK: - UITableViewDelegate
 
@@ -164,6 +160,9 @@ class RileyLinkListTableViewController: UITableViewController {
                 switch PumpActionRow(rawValue: indexPath.row)! {
                 case .addMinimedPump:
                     var setupViewController = MinimedPumpManager.setupViewController()
+                    if let rlSetupViewController = setupViewController as? RileyLinkManagerSetupViewController {
+                        rlSetupViewController.rileyLinkManager = rileyLinkManager
+                    }
                     setupViewController.setupDelegate = self
                     present(setupViewController, animated: true, completion: nil)
                     break
@@ -173,6 +172,20 @@ class RileyLinkListTableViewController: UITableViewController {
             }
         }
     }
+    
+    // MARK: - DeviceConnectionPreferenceDelegate
+    func connectionPreferenceChanged(connectionPreference: DeviceConnectionPreference, device: RileyLinkDevice) {
+        switch connectionPreference {
+        case .autoConnect:
+            rileyLinkManager.connect(device)
+        case .noAutoConnect:
+            rileyLinkManager.disconnect(device)
+        }
+    }
+    
+    func getGonnectionPreferenceFor(device: RileyLinkDevice) -> DeviceConnectionPreference? {
+        return nil
+    }    
 }
 
 extension RileyLinkListTableViewController: PumpManagerSetupViewControllerDelegate {

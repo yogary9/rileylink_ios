@@ -9,29 +9,38 @@ import UIKit
 import LoopKit
 import LoopKitUI
 import RileyLinkKit
+import RileyLinkBLEKit
 
 
-public class RileyLinkSetupTableViewController: SetupTableViewController {
-
-    let rileyLinkPumpManager = RileyLinkPumpManager(rileyLinkPumpManagerState: RileyLinkPumpManagerState(connectedPeripheralIDs: []))
-
-    private lazy var devicesDataSource: RileyLinkDevicesTableViewDataSource = {
-        return RileyLinkDevicesTableViewDataSource(
-            rileyLinkPumpManager: rileyLinkPumpManager,
-            devicesSectionIndex: Section.devices.rawValue
-        )
-    }()
+public class RileyLinkSetupTableViewController: SetupTableViewController, DeviceConnectionPreferenceDelegate {
+    
+    var devicesDataSource: RileyLinkDevicesTableViewDataSource! {
+        didSet {
+            devicesDataSource.tableView = tableView
+            devicesDataSource.connectionPreferenceDelegate = self
+        }
+    }
+    
+    var rileyLinkPumpManager: RileyLinkPumpManager! {
+        didSet {
+            devicesDataSource = RileyLinkDevicesTableViewDataSource(
+                rileyLinkManager: rileyLinkPumpManager.rileyLinkManager,
+                devicesSectionIndex: Section.devices.rawValue
+            )
+            updateContinueButtonState()
+        }
+    }
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-
-        devicesDataSource.tableView = tableView
+        
+        if let navVC = navigationController as? RileyLinkManagerSetupViewController {
+            rileyLinkPumpManager = RileyLinkPumpManager(rileyLinkPumpManagerState: RileyLinkPumpManagerState(connectedPeripheralIDs: []), rileyLinkManager: navVC.rileyLinkManager)
+        }
 
         tableView.register(SetupImageTableViewCell.nib(), forCellReuseIdentifier: SetupImageTableViewCell.className)
 
         NotificationCenter.default.addObserver(self, selector: #selector(deviceConnectionStateDidChange), name: .DeviceConnectionStateDidChange, object: nil)
-
-        updateContinueButtonState()
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -130,7 +139,7 @@ public class RileyLinkSetupTableViewController: SetupTableViewController {
     // MARK: - Navigation
 
     private var shouldContinue: Bool {
-        return devicesDataSource.rileyLinkPumpManager.rileyLinkPumpManagerState.connectedPeripheralIDs.count > 0
+        return rileyLinkPumpManager.rileyLinkPumpManagerState.connectedPeripheralIDs.count > 0
     }
 
     @objc private func deviceConnectionStateDidChange() {
@@ -145,6 +154,20 @@ public class RileyLinkSetupTableViewController: SetupTableViewController {
 
     public override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return shouldContinue
+    }
+    
+    // MARK: - DeviceConnectionPreferenceDelegate
+    public func connectionPreferenceChanged(connectionPreference: DeviceConnectionPreference, device: RileyLinkDevice) {
+        switch connectionPreference {
+        case .autoConnect:
+            rileyLinkPumpManager.connectToRileyLink(device)
+        case .noAutoConnect:
+            rileyLinkPumpManager.disconnectFromRileyLink(device)
+        }
+    }
+    
+    public func getGonnectionPreferenceFor(device: RileyLinkDevice) -> DeviceConnectionPreference? {
+        return rileyLinkPumpManager.rileyLinkPumpManagerState.connectedPeripheralIDs.contains(device.peripheralIdentifier.uuidString) ? .autoConnect : .noAutoConnect
     }
 
 }

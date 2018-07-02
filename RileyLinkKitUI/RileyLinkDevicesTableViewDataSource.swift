@@ -10,11 +10,22 @@ import CoreBluetooth
 import RileyLinkBLEKit
 import RileyLinkKit
 
+public enum DeviceConnectionPreference {
+    case autoConnect
+    case noAutoConnect
+}
+
+public protocol DeviceConnectionPreferenceDelegate: class {
+    func connectionPreferenceChanged(connectionPreference: DeviceConnectionPreference, device: RileyLinkDevice)
+    func getGonnectionPreferenceFor(device: RileyLinkDevice) -> DeviceConnectionPreference?
+}
 
 public class RileyLinkDevicesTableViewDataSource: NSObject {
-    public let rileyLinkPumpManager: RileyLinkPumpManager
+    public let rileyLinkManager: RileyLinkDeviceManager
 
     public let devicesSectionIndex: Int
+    
+    public weak var connectionPreferenceDelegate: DeviceConnectionPreferenceDelegate?
 
     public var tableView: UITableView! {
         didSet {
@@ -23,7 +34,7 @@ public class RileyLinkDevicesTableViewDataSource: NSObject {
             tableView.register(RileyLinkDevicesHeaderView.self, forHeaderFooterViewReuseIdentifier: RileyLinkDevicesHeaderView.className)
 
             // Register for manager notifications
-            NotificationCenter.default.addObserver(self, selector: #selector(reloadDevices), name: .ManagerDevicesDidChange, object: rileyLinkPumpManager.rileyLinkManager)
+            NotificationCenter.default.addObserver(self, selector: #selector(reloadDevices), name: .ManagerDevicesDidChange, object: rileyLinkManager)
 
             // Register for device notifications
             for name in [.DeviceConnectionStateDidChange, .DeviceRSSIDidChange, .DeviceNameDidChange] as [Notification.Name] {
@@ -34,8 +45,8 @@ public class RileyLinkDevicesTableViewDataSource: NSObject {
         }
     }
 
-    public init(rileyLinkPumpManager: RileyLinkPumpManager, devicesSectionIndex: Int) {
-        self.rileyLinkPumpManager = rileyLinkPumpManager
+    public init(rileyLinkManager: RileyLinkDeviceManager, devicesSectionIndex: Int) {
+        self.rileyLinkManager = rileyLinkManager
         self.devicesSectionIndex = devicesSectionIndex
         super.init()
     }
@@ -54,7 +65,7 @@ public class RileyLinkDevicesTableViewDataSource: NSObject {
 
     public var isScanningEnabled: Bool = false {
         didSet {
-            rileyLinkPumpManager.rileyLinkManager.setScanningEnabled(isScanningEnabled)
+            rileyLinkManager.setScanningEnabled(isScanningEnabled)
 
             if isScanningEnabled {
                 rssiFetchTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(updateRSSI), userInfo: nil, repeats: true)
@@ -90,15 +101,16 @@ public class RileyLinkDevicesTableViewDataSource: NSObject {
     /// - Parameter device: The peripheral
     /// - Returns: The adjusted connection state
     private func preferenceStateForDevice(_ device: RileyLinkDevice) -> CBPeripheralState {
-        let isAutoConnectDevice = self.rileyLinkPumpManager.rileyLinkPumpManagerState.connectedPeripheralIDs.contains(device.peripheralIdentifier.uuidString)
         var state = device.peripheralState
-
-        switch state {
-        case .disconnected, .disconnecting:
-            break
-        case .connecting, .connected:
-            if !isAutoConnectDevice {
-                state = .disconnected
+        
+        if let connectionPreference = connectionPreferenceDelegate?.getGonnectionPreferenceFor(device: device) {
+            switch state {
+            case .disconnected, .disconnecting:
+                break
+            case .connecting, .connected:
+                if case .noAutoConnect = connectionPreference {
+                    state = .disconnected
+                }
             }
         }
 
@@ -114,7 +126,7 @@ public class RileyLinkDevicesTableViewDataSource: NSObject {
     }
 
     @objc private func reloadDevices() {
-        rileyLinkPumpManager.rileyLinkManager.getDevices { (devices) in
+        rileyLinkManager.getDevices { (devices) in
             DispatchQueue.main.async {
                 self.devices = devices
             }
@@ -151,12 +163,8 @@ public class RileyLinkDevicesTableViewDataSource: NSObject {
         if let indexPath = tableView.indexPathForRow(at: switchOrigin), indexPath.section == devicesSectionIndex
         {
             let device = devices[indexPath.row]
-
-            if connectSwitch.isOn {
-                rileyLinkPumpManager.connectToRileyLink(device)
-            } else {
-                rileyLinkPumpManager.disconnectFromRileyLink(device)
-            }
+            
+            connectionPreferenceDelegate?.connectionPreferenceChanged(connectionPreference: connectSwitch.isOn ? .autoConnect : .noAutoConnect, device: device)
         }
     }
 }

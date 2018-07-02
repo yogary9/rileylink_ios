@@ -11,12 +11,15 @@ import RileyLinkBLEKit
 import RileyLinkKit
 
 
-open class RileyLinkSettingsViewController: UITableViewController {
+open class RileyLinkSettingsViewController: UITableViewController, DeviceConnectionPreferenceDelegate {
 
     open let devicesDataSource: RileyLinkDevicesTableViewDataSource
+    
+    let rileyLinkPumpManager: RileyLinkPumpManager
 
     public init(rileyLinkPumpManager: RileyLinkPumpManager, devicesSectionIndex: Int, style: UITableViewStyle) {
-        devicesDataSource = RileyLinkDevicesTableViewDataSource(rileyLinkPumpManager: rileyLinkPumpManager, devicesSectionIndex: devicesSectionIndex)
+        self.rileyLinkPumpManager = rileyLinkPumpManager
+        devicesDataSource = RileyLinkDevicesTableViewDataSource(rileyLinkManager: rileyLinkPumpManager.rileyLinkManager, devicesSectionIndex: devicesSectionIndex)
         super.init(style: style)
     }
 
@@ -26,7 +29,8 @@ open class RileyLinkSettingsViewController: UITableViewController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        devicesDataSource.connectionPreferenceDelegate = self
         devicesDataSource.tableView = tableView
     }
 
@@ -60,5 +64,20 @@ open class RileyLinkSettingsViewController: UITableViewController {
 
     override open func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return devicesDataSource.tableView(tableView, viewForHeaderInSection: section)
+    }
+    
+    // MARK: - DeviceConnectionPreferenceDelegate
+    
+    public func connectionPreferenceChanged(connectionPreference: DeviceConnectionPreference, device: RileyLinkDevice) {
+        switch connectionPreference {
+        case .autoConnect:
+            rileyLinkPumpManager.connectToRileyLink(device)
+        case .noAutoConnect:
+            rileyLinkPumpManager.disconnectFromRileyLink(device)
+        }
+    }
+    
+    public func getGonnectionPreferenceFor(device: RileyLinkDevice) -> DeviceConnectionPreference? {
+        return rileyLinkPumpManager.rileyLinkPumpManagerState.connectedPeripheralIDs.contains(device.peripheralIdentifier.uuidString) ? .autoConnect : .noAutoConnect
     }
 }
