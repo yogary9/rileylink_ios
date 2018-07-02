@@ -9,7 +9,7 @@ import UIKit
 import LoopKit
 import LoopKitUI
 import RileyLinkKit
-
+import RileyLinkBLEKit
 
 open class RileyLinkManagerSetupViewController: UINavigationController, PumpManagerSetupViewController, UINavigationControllerDelegate {
 
@@ -22,6 +22,8 @@ open class RileyLinkManagerSetupViewController: UINavigationController, PumpMana
     open weak var setupDelegate: PumpManagerSetupViewControllerDelegate?
 
     open private(set) var rileyLinkPumpManager: RileyLinkPumpManager?
+    
+    open var rileyLinkManager: RileyLinkDeviceManager?
 
     open override func viewDidLoad() {
         super.viewDidLoad()

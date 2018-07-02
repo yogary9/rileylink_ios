@@ -9,7 +9,7 @@
 import UIKit
 import RileyLinkKit
 
-class SwitchTableViewCell: UITableViewCell, IdentifiableClass {
+class SwitchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
 

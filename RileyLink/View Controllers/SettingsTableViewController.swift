@@ -44,11 +44,9 @@ class SettingsTableViewController: UITableViewController, TextFieldTableViewCont
     }
 
     fileprivate enum ConfigurationRow: Int {
-        case pumpID = 0
-        case pumpRegion
         case nightscout
         case fetchCGM
-        static let count = 4
+        static let count = 2
     }
     
     fileprivate var dataManager: DeviceDataManager {
@@ -100,22 +98,6 @@ class SettingsTableViewController: UITableViewController, TextFieldTableViewCont
         case .configuration:
 
             switch ConfigurationRow(rawValue: indexPath.row)! {
-            case .pumpID:
-                let configCell = tableView.dequeueReusableCell(withIdentifier: ConfigCellIdentifier, for: indexPath)
-                configCell.textLabel?.text = NSLocalizedString("Pump ID", comment: "The title text for the pump ID config value")
-                configCell.detailTextLabel?.text = dataManager.pumpSettings?.pumpID ?? TapToSetString
-                cell = configCell
-            case .pumpRegion:
-                let configCell = tableView.dequeueReusableCell(withIdentifier: ConfigCellIdentifier, for: indexPath)
-                configCell.textLabel?.text = NSLocalizedString("Pump Region", comment: "The title text for the pump Region config value")
-
-                if let pumpRegion = dataManager.pumpSettings?.pumpRegion {
-                    configCell.detailTextLabel?.text = String(describing: pumpRegion)
-                } else {
-                    configCell.detailTextLabel?.text = nil
-                }
-
-                cell = configCell
             case .nightscout:
                 let configCell = tableView.dequeueReusableCell(withIdentifier: ConfigCellIdentifier, for: indexPath)
                 let nightscoutService = dataManager.remoteDataManager.nightscoutService
@@ -151,28 +133,7 @@ class SettingsTableViewController: UITableViewController, TextFieldTableViewCont
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch Section(rawValue: indexPath.section)! {
         case .configuration:
-            let sender = tableView.cellForRow(at: indexPath)
-
             switch ConfigurationRow(rawValue: indexPath.row)! {
-            case .pumpID:
-                let vc = TextFieldTableViewController()
-
-                vc.placeholder = NSLocalizedString("Enter the 6-digit pump ID", comment: "The placeholder text instructing users how to enter a pump ID")
-                vc.value = dataManager.pumpSettings?.pumpID
-
-                if let cell = tableView.cellForRow(at: indexPath) {
-                    vc.title = cell.textLabel?.text
-                }
-                vc.indexPath = indexPath
-                vc.delegate = self
-
-                show(vc, sender: indexPath)
-            case .pumpRegion:
-                let vc = RadioSelectionTableViewController.pumpRegion(dataManager.pumpSettings?.pumpRegion)
-                vc.title = sender?.textLabel?.text
-                vc.delegate = self
-                
-                show(vc, sender: sender)
             case .nightscout:
                 let service = dataManager.remoteDataManager.nightscoutService
                 let vc = AuthenticationViewController(authentication: service)
@@ -215,8 +176,6 @@ class SettingsTableViewController: UITableViewController, TextFieldTableViewCont
     func textFieldTableViewControllerDidEndEditing(_ controller: TextFieldTableViewController) {
         if let indexPath = controller.indexPath {
             switch ConfigurationRow(rawValue: indexPath.row)! {
-            case .pumpID:
-                dataManager.setPumpID(controller.value)
             default:
                 break
             }
@@ -230,14 +189,4 @@ class SettingsTableViewController: UITableViewController, TextFieldTableViewCont
     }
 }
 
-
-extension SettingsTableViewController: RadioSelectionTableViewControllerDelegate {
-    func radioSelectionTableViewControllerDidChangeSelectedIndex(_ controller: RadioSelectionTableViewController) {
-        if let selectedIndex = controller.selectedIndex, let pumpRegion = PumpRegion(rawValue: selectedIndex) {
-            dataManager.setPumpRegion(pumpRegion)
-            
-            tableView.reloadRows(at: [IndexPath(row: ConfigurationRow.pumpRegion.rawValue, section: Section.configuration.rawValue)], with: .none)
-        }
-    }
-}
 

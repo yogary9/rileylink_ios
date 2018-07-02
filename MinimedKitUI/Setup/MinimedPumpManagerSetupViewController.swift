@@ -26,7 +26,7 @@ public class MinimedPumpManagerSetupViewController: RileyLinkManagerSetupViewCon
         view.backgroundColor = .white
         navigationBar.shadowImage = UIImage()
     }
-
+    
     private(set) var pumpManager: MinimedPumpManager?
 
     /*

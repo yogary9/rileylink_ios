@@ -16,7 +16,6 @@
 
 @property (nonatomic, nullable, strong) NSURL *nightscoutURL;
 @property (nonatomic, nullable, strong) NSString *nightscoutAPISecret;
-@property (nonatomic, nullable, strong) NSSet *autoConnectIds;
 @property (nonatomic, assign) BOOL uploadEnabled;
 @property (nonatomic, assign) BOOL fetchCGMEnabled;
 

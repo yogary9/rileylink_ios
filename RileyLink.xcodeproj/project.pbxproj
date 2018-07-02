@@ -61,7 +61,6 @@
 		43462E8B1CCB06F500F958A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43462E8A1CCB06F500F958A8 /* AppDelegate.swift */; };
 		434AB0C71CBCB76400422F4A /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EAD6BA1C826B92006DBA60 /* Data.swift */; };
 		434FF1DC1CF268BD000DB779 /* IdentifiableClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431185AE1CF25A590059ED98 /* IdentifiableClass.swift */; };
-		434FF1DE1CF268F3000DB779 /* RileyLinkDeviceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434FF1DD1CF268F3000DB779 /* RileyLinkDeviceTableViewCell.swift */; };
 		4352A71220DEC68100CAC200 /* RileyLinkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43722FAE1CB9F7630038B7F2 /* RileyLinkKit.framework */; };
 		4352A71520DEC72500CAC200 /* PumpMessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F962EC21E6873A10070EFBD /* PumpMessageSender.swift */; };
 		4352A71620DEC78B00CAC200 /* PumpSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4384C8C71FB937E500D916E6 /* PumpSettings.swift */; };
@@ -377,6 +376,10 @@
 		C17BBC6520E8730100902D72 /* MySentryAlertType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6420E8730100902D72 /* MySentryAlertType.swift */; };
 		C17BBC6620E8755500902D72 /* TimeZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345D1CD1DA16AF300BAAD22 /* TimeZone.swift */; };
 		C17BBC6720E876F600902D72 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EBE4501EAD238C0073A0B5 /* TimeInterval.swift */; };
+		C17BBC6820E959D000902D72 /* CaseCountable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C659181E16BA9D0025CC58 /* CaseCountable.swift */; };
+		C17BBC6A20E95ABE00902D72 /* SettingsImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6920E95ABE00902D72 /* SettingsImageTableViewCell.swift */; };
+		C17BBC6C20E95CA400902D72 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6B20E95CA400902D72 /* UITableViewCell.swift */; };
+		C17BBC7020E9815100902D72 /* PumpManagerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6F20E9815100902D72 /* PumpManagerState.swift */; };
 		C1842BBB1C8E184300DB42AC /* PumpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBA1C8E184300DB42AC /* PumpModel.swift */; };
 		C1842BBD1C8E7C6E00DB42AC /* PumpEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBC1C8E7C6E00DB42AC /* PumpEvent.swift */; };
 		C1842BBF1C8E855A00DB42AC /* PumpEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBE1C8E855A00DB42AC /* PumpEventType.swift */; };
@@ -761,7 +764,6 @@
 		434AB0921CBA0DF600422F4A /* PumpOps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PumpOps.swift; sourceTree = "<group>"; };
 		434AB0931CBA0DF600422F4A /* PumpOpsSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PumpOpsSession.swift; path = ../../RileyLinkKit/PumpOpsSession.swift; sourceTree = "<group>"; };
 		434AB0941CBA0DF600422F4A /* PumpState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PumpState.swift; sourceTree = "<group>"; };
-		434FF1DD1CF268F3000DB779 /* RileyLinkDeviceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RileyLinkDeviceTableViewCell.swift; sourceTree = "<group>"; };
 		4352A72520DEC9B700CAC200 /* MinimedKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MinimedKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4352A72720DEC9B700CAC200 /* MinimedKitUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MinimedKitUI.h; sourceTree = "<group>"; };
 		4352A72820DEC9B700CAC200 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1046,6 +1048,9 @@
 		C178845E1D5166BE00405663 /* COBStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = COBStatus.swift; sourceTree = "<group>"; };
 		C17884601D519F1E00405663 /* BatteryIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatteryIndicator.swift; sourceTree = "<group>"; };
 		C17BBC6420E8730100902D72 /* MySentryAlertType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MySentryAlertType.swift; sourceTree = "<group>"; };
+		C17BBC6920E95ABE00902D72 /* SettingsImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsImageTableViewCell.swift; sourceTree = "<group>"; };
+		C17BBC6B20E95CA400902D72 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
+		C17BBC6F20E9815100902D72 /* PumpManagerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpManagerState.swift; sourceTree = "<group>"; };
 		C1842BBA1C8E184300DB42AC /* PumpModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PumpModel.swift; sourceTree = "<group>"; };
 		C1842BBC1C8E7C6E00DB42AC /* PumpEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PumpEvent.swift; sourceTree = "<group>"; };
 		C1842BBE1C8E855A00DB42AC /* PumpEventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PumpEventType.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1752,8 +1757,8 @@
 				C14FFC521D3D70170049CF85 /* ValidatingIndicatorView.swift */,
 				C14FFC5C1D3D75200049CF85 /* ButtonTableViewCell.swift */,
 				C14FFC5D1D3D75200049CF85 /* ButtonTableViewCell.xib */,
-				434FF1DD1CF268F3000DB779 /* RileyLinkDeviceTableViewCell.swift */,
 				C16843761CF00C0100D53CCD /* SwitchTableViewCell.swift */,
+				C17BBC6920E95ABE00902D72 /* SettingsImageTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1987,6 +1992,7 @@
 				437462381FA9287A00643383 /* RileyLinkDevice.swift */,
 				C14FFC541D3D72A50049CF85 /* UIViewController.swift */,
 				435535D51FB6D98400CE5A23 /* UserDefaults.swift */,
+				C17BBC6B20E95CA400902D72 /* UITableViewCell.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2062,6 +2068,7 @@
 				C14FFC681D3D7E560049CF85 /* KeychainManager+RileyLink.swift */,
 				C14FFC641D3D7E250049CF85 /* RemoteDataManager.swift */,
 				C1B383351CD1BA8100CE7782 /* DeviceDataManager.swift */,
+				C17BBC6F20E9815100902D72 /* PumpManagerState.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -3193,8 +3200,10 @@
 				C14FFC5E1D3D75200049CF85 /* ButtonTableViewCell.swift in Sources */,
 				43EBE4551EAD24410073A0B5 /* TimeInterval.swift in Sources */,
 				C14FFC691D3D7E560049CF85 /* KeychainManager+RileyLink.swift in Sources */,
+				C17BBC6A20E95ABE00902D72 /* SettingsImageTableViewCell.swift in Sources */,
 				437F540A1FBFDAA60070FF2C /* Data.swift in Sources */,
 				C14FFC511D3D6DEF0049CF85 /* ServiceCredential.swift in Sources */,
+				C17BBC6820E959D000902D72 /* CaseCountable.swift in Sources */,
 				C14FFC5B1D3D74F90049CF85 /* NibLoadable.swift in Sources */,
 				C14FFC611D3D75470049CF85 /* UIColor.swift in Sources */,
 				C1274F811D82411C0002912B /* SettingsTableViewController.swift in Sources */,
@@ -3205,7 +3214,6 @@
 				43462E8B1CCB06F500F958A8 /* AppDelegate.swift in Sources */,
 				C16843771CF00C0100D53CCD /* SwitchTableViewCell.swift in Sources */,
 				C14FFC551D3D72A50049CF85 /* UIViewController.swift in Sources */,
-				434FF1DE1CF268F3000DB779 /* RileyLinkDeviceTableViewCell.swift in Sources */,
 				C14FFC651D3D7E250049CF85 /* RemoteDataManager.swift in Sources */,
 				C17884611D519F1E00405663 /* BatteryIndicator.swift in Sources */,
 				437462391FA9287A00643383 /* RileyLinkDevice.swift in Sources */,
@@ -3214,6 +3222,8 @@
 				431CE7981F9B0F0200255374 /* OSLog.swift in Sources */,
 				C1EF58881B3F93FE001C8C80 /* Config.m in Sources */,
 				C14FFC581D3D72D30049CF85 /* AuthenticationTableViewCell.swift in Sources */,
+				C17BBC7020E9815100902D72 /* PumpManagerState.swift in Sources */,
+				C17BBC6C20E95CA400902D72 /* UITableViewCell.swift in Sources */,
 				C14FFC631D3D7CE20049CF85 /* NightscoutService.swift in Sources */,
 				C1B383361CD1BA8100CE7782 /* DeviceDataManager.swift in Sources */,
 				C1271B071A9A34E900B7C949 /* Log.m in Sources */,

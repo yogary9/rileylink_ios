@@ -54,18 +54,6 @@
     return [_defaults stringForKey:@"nightscoutAPISecret"];
 }
 
-- (NSSet*) autoConnectIds {
-    NSSet *set = [[NSUserDefaults standardUserDefaults] objectForKey:@"autoConnectIds"];
-    if (!set) {
-        set = [NSSet set];
-    }
-    return set;
-}
-
-- (void) setAutoConnectIds:(NSSet *)autoConnectIds {
-    [[NSUserDefaults standardUserDefaults] setObject:[autoConnectIds allObjects] forKey:@"autoConnectIds"];
-}
-
 - (BOOL) uploadEnabled {
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"uploadEnabled"];
 }

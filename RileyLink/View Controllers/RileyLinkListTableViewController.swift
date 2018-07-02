@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import MinimedKit
 import MinimedKitUI
 import RileyLinkBLEKit
 import RileyLinkKit
 import RileyLinkKitUI
+import LoopKit
+import LoopKitUI
 
 
 class RileyLinkListTableViewController: UITableViewController {
@@ -21,154 +24,165 @@ class RileyLinkListTableViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.register(RileyLinkDeviceTableViewCell.self, forCellReuseIdentifier: RileyLinkDeviceTableViewCell.className)
-
-        // Register for manager notifications
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadDevices), name: .ManagerDevicesDidChange, object: dataManager.rileyLinkManager)
-
-        // Register for device notifications
-        for name in [.DeviceConnectionStateDidChange, .DeviceRSSIDidChange, .DeviceNameDidChange] as [Notification.Name] {
-            NotificationCenter.default.addObserver(self, selector: #selector(deviceDidUpdate(_:)), name: name, object: nil)
-        }
-
-        reloadDevices()
+        tableView.register(SettingsImageTableViewCell.self, forCellReuseIdentifier: SettingsImageTableViewCell.className)
+        tableView.register(TextButtonTableViewCell.self, forCellReuseIdentifier: TextButtonTableViewCell.className)
+        
+        devicesDataSource.tableView = tableView
     }
-
-    @objc private func reloadDevices() {
-        self.dataManager.rileyLinkManager.getDevices { (devices) in
-            DispatchQueue.main.async {
-                self.devices = devices
-            }
-        }
+    
+    fileprivate enum Section: Int, CaseCountable {
+        case devices = 0
+        case pump
     }
-
-    @objc private func deviceDidUpdate(_ note: Notification) {
-        DispatchQueue.main.async {
-            if let device = note.object as? RileyLinkDevice, let index = self.devices.index(where: { $0 === device }) {
-                if let rssi = note.userInfo?[RileyLinkDevice.notificationRSSIKey] as? Int {
-                    self.deviceRSSI[device.peripheralIdentifier] = rssi
-                }
-
-                if let cell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? RileyLinkDeviceTableViewCell {
-                    cell.configureCellWithName(device.name,
-                        signal: self.numberFormatter.decibleString(from: self.deviceRSSI[device.peripheralIdentifier]),
-                        peripheralState: device.peripheralState
-                    )
-                }
-            }
-        }
+    
+    fileprivate enum PumpActionRow: Int, CaseCountable {
+        case addMinimedPump = 0
+        case addPod
     }
+    
+    let rileyLinkPumpManager = RileyLinkPumpManager(rileyLinkPumpManagerState: RileyLinkPumpManagerState(connectedPeripheralIDs: []))
+    
+    private lazy var devicesDataSource: RileyLinkDevicesTableViewDataSource = {
+        return RileyLinkDevicesTableViewDataSource(
+            rileyLinkPumpManager: rileyLinkPumpManager,
+            devicesSectionIndex: Section.devices.rawValue
+        )
+    }()
 
     private var dataManager: DeviceDataManager {
         return DeviceDataManager.sharedManager
     }
-
-    private var devices: [RileyLinkDevice] = [] {
-        didSet {
-            // Assume only appends are possible when count changes for algorithmic simplicity
-            guard oldValue.count < devices.count else {
-                tableView.reloadSections(IndexSet(integer: 0), with: .fade)
-                return
-            }
-
-            tableView.beginUpdates()
-
-            let insertedPaths = (oldValue.count..<devices.count).map { (index) -> IndexPath in
-                return IndexPath(row: index, section: 0)
-            }
-            tableView.insertRows(at: insertedPaths, with: .automatic)
-
-            tableView.endUpdates()
-        }
-    }
-
-    private var deviceRSSI: [UUID: Int] = [:]
-
-    var rssiFetchTimer: Timer? {
-        willSet {
-            rssiFetchTimer?.invalidate()
-        }
-    }
-
-    @objc func updateRSSI() {
-        for device in devices {
-            device.readRSSI()
-        }
-    }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        dataManager.rileyLinkManager.setScanningEnabled(true)
-
-        rssiFetchTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(updateRSSI), userInfo: nil, repeats: true)
-
-        updateRSSI()
+        devicesDataSource.isScanningEnabled = true
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        dataManager.rileyLinkManager.setScanningEnabled(false)
-
-        rssiFetchTimer = nil
+        devicesDataSource.isScanningEnabled = false
     }
     
     // MARK: Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return Section.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return devices.count
+        switch Section(rawValue: section)! {
+        case .devices:
+            return devicesDataSource.tableView(tableView, numberOfRowsInSection: section)
+        case .pump:
+            if let _ = dataManager.pumpManager {
+                return 1
+            } else {
+                return PumpActionRow.count
+            }
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         
-        let deviceCell = tableView.dequeueReusableCell(withIdentifier: RileyLinkDeviceTableViewCell.className) as! RileyLinkDeviceTableViewCell
-        
-        let device = devices[indexPath.row]
-        
-        deviceCell.configureCellWithName(
-            device.name,
-            signal: numberFormatter.decibleString(from: deviceRSSI[device.peripheralIdentifier]),
-            peripheralState: device.peripheralState
-        )
-        
-        deviceCell.connectSwitch?.addTarget(self, action: #selector(changeDeviceConnection(_:)), for: .valueChanged)
-        
-        cell = deviceCell
+        switch(Section(rawValue: indexPath.section)!) {
+        case .devices:
+            cell = devicesDataSource.tableView(tableView, cellForRowAt: indexPath)
+        case .pump:
+            if let pumpManager = dataManager.pumpManager as? PumpManagerUI {
+                cell = tableView.dequeueReusableCell(withIdentifier: SettingsImageTableViewCell.className, for: indexPath)
+                cell.imageView?.image = pumpManager.smallImage
+                cell.textLabel?.text = pumpManager.localizedTitle
+                cell.detailTextLabel?.text = nil
+                cell.accessoryType = .disclosureIndicator
+            } else {
+                switch(PumpActionRow(rawValue: indexPath.row)!) {
+                case .addMinimedPump:
+                    cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath)
+                    cell.textLabel?.text = NSLocalizedString("Add Minimed Pump", comment: "Title text for button to set up a new minimed pump")
+                case .addPod:
+                    cell = tableView.dequeueReusableCell(withIdentifier: TextButtonTableViewCell.className, for: indexPath)
+                    cell.textLabel?.text = NSLocalizedString("Pair New Pod", comment: "Title text for button to pair a new pod")
+                }
+            }
+        }
         return cell
     }
     
-    @objc func changeDeviceConnection(_ connectSwitch: UISwitch) {
-        let switchOrigin = connectSwitch.convert(CGPoint.zero, to: tableView)
-        
-        if let indexPath = tableView.indexPathForRow(at: switchOrigin) {
-            let device = devices[indexPath.row]
-            
-            if connectSwitch.isOn {
-                dataManager.connectToRileyLink(device)
-            } else {
-                dataManager.disconnectFromRileyLink(device)
-            }
+    public override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch Section(rawValue: section)! {
+        case .devices:
+            return devicesDataSource.tableView(tableView, titleForHeaderInSection: section)
+        case .pump:
+            return NSLocalizedString("Pumps", comment: "Title text for section listing configured pumps")
         }
     }
+    
+    public override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        switch Section(rawValue: section)! {
+        case .devices:
+            return devicesDataSource.tableView(tableView, viewForHeaderInSection: section)
+        case .pump:
+            return nil
+        }
+    }
+    
+    public override func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return devicesDataSource.tableView(tableView, estimatedHeightForHeaderInSection: section)
+    }
 
+//    public override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+//        return false
+//    }
+
+
+    
     // MARK: - UITableViewDelegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let device = devices[indexPath.row]
-        let vc = RileyLinkMinimedDeviceTableViewController(
-            device: device,
-            deviceState: dataManager.deviceStates[device.peripheralIdentifier, default: DeviceState()],
-            pumpSettings: dataManager.pumpSettings,
-            pumpState: dataManager.pumpState,
-            pumpOps: dataManager.pumpOps,
-            podComms: dataManager.podComms
-        )
+        let sender = tableView.cellForRow(at: indexPath)
+        
+        switch Section(rawValue: indexPath.section)! {
+        case .devices:
+            let device = devicesDataSource.devices[indexPath.row]            
+            let deviceState = dataManager.deviceStates[device.peripheralIdentifier, default: DeviceState()]
+            let vc = RileyLinkMinimedDeviceTableViewController(
+                device: device,
+                deviceState: deviceState,
+                pumpSettings: nil,
+                pumpState: nil,
+                pumpOps: nil
+            )
+            show(vc, sender: indexPath)
+        case .pump:
+            if let pumpManager = dataManager.pumpManager as? PumpManagerUI {
+                let settings = pumpManager.settingsViewController()
+                show(settings, sender: sender)
+            } else {
+                switch PumpActionRow(rawValue: indexPath.row)! {
+                case .addMinimedPump:
+                    var setupViewController = MinimedPumpManager.setupViewController()
+                    setupViewController.setupDelegate = self
+                    present(setupViewController, animated: true, completion: nil)
+                    break
+                case .addPod:
+                    break
+                }
+            }
+        }
+    }
+}
 
-        show(vc, sender: indexPath)
+extension RileyLinkListTableViewController: PumpManagerSetupViewControllerDelegate {
+    func pumpManagerSetupViewController(_ pumpManagerSetupViewController: PumpManagerSetupViewController, didSetUpPumpManager pumpManager: PumpManagerUI) {
+        // TODO: add pump manager to deviceManager list of pumps
+        show(pumpManager.settingsViewController(), sender: nil)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func pumpManagerSetupViewControllerDidCancel(_ pumpManagerSetupViewController: PumpManagerSetupViewController) {
+        dismiss(animated: true, completion: nil)
     }
 }
