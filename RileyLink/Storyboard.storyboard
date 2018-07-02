@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="0gW-NC-JMI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0gW-NC-JMI">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,10 +13,9 @@
         <!--Navigation Controller-->
         <scene sceneID="u5p-SX-rd2">
             <objects>
-                <navigationController id="0gW-NC-JMI" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0gW-NC-JMI" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="qDi-XH-6a2"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" translucent="NO" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="VY2-UP-xNa">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="VY2-UP-xNa">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -26,36 +25,45 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dx2-1c-7Ps" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-316" y="1171"/>
+            <point key="canvasLocation" x="-505.60000000000002" y="1053.3733133433284"/>
         </scene>
-        <!--RileyLink List-->
+        <!--RileyLink-->
         <scene sceneID="P09-h8-9VX">
             <objects>
                 <tableViewController id="1do-Ic-9Nf" customClass="RileyLinkListTableViewController" customModule="RileyLink" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Yro-Gi-DGd">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Yro-Gi-DGd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1jn-pO-OVJ">
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1jn-pO-OVJ" id="r2z-xI-Ob7">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="1do-Ic-9Nf" id="G2F-ab-1f9"/>
                             <outlet property="delegate" destination="1do-Ic-9Nf" id="otV-5a-mBz"/>
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="RileyLink List" id="mbx-dO-fIN">
+                    <navigationItem key="navigationItem" title="RileyLink" id="mbx-dO-fIN">
                         <barButtonItem key="backBarButtonItem" title=" " id="Wrv-YJ-Uu5"/>
                         <barButtonItem key="rightBarButtonItem" image="icon-settings" id="O6k-XV-Qbh">
                             <color key="tintColor" red="0.73323750495910645" green="0.76871037483215332" blue="0.94040375947952271" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <segue destination="xDe-Dc-g3b" kind="push" id="AyY-3X-oC2"/>
+                                <segue destination="xDe-Dc-g3b" kind="show" id="AyY-3X-oC2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wpb-Og-V8S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="99" y="1173"/>
+            <point key="canvasLocation" x="335" y="1053"/>
         </scene>
         <!--Settings-->
         <scene sceneID="jnw-BC-ZTf">
@@ -129,7 +137,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ruE-EE-HMo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="770" y="615"/>
+            <point key="canvasLocation" x="1238" y="1053"/>
         </scene>
     </scenes>
     <resources>
