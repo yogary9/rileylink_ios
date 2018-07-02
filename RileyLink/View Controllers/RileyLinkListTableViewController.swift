@@ -31,6 +31,15 @@ class RileyLinkListTableViewController: UITableViewController, DeviceConnectionP
         devicesDataSource.tableView = tableView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        // Manually invoke the delegate for rows deselecting on appear
+        for indexPath in tableView.indexPathsForSelectedRows ?? [] {
+            _ = tableView(tableView, willDeselectRowAt: indexPath)
+        }
+        
+        super.viewWillAppear(animated)
+    }
+    
     fileprivate enum Section: Int, CaseCountable {
         case devices = 0
         case pump
@@ -173,6 +182,18 @@ class RileyLinkListTableViewController: UITableViewController, DeviceConnectionP
         }
     }
     
+    override func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
+        switch Section(rawValue: indexPath.section)! {
+        case .devices:
+            break
+        case .pump:
+            tableView.reloadSections(IndexSet([Section.pump.rawValue]), with: .none)
+        }
+        
+        return indexPath
+    }
+
+    
     // MARK: - DeviceConnectionPreferenceDelegate
     func connectionPreferenceChanged(connectionPreference: DeviceConnectionPreference, device: RileyLinkDevice) {
         switch connectionPreference {
@@ -190,8 +211,9 @@ class RileyLinkListTableViewController: UITableViewController, DeviceConnectionP
 
 extension RileyLinkListTableViewController: PumpManagerSetupViewControllerDelegate {
     func pumpManagerSetupViewController(_ pumpManagerSetupViewController: PumpManagerSetupViewController, didSetUpPumpManager pumpManager: PumpManagerUI) {
-        // TODO: add pump manager to deviceManager list of pumps
+        dataManager.pumpManager = pumpManager
         show(pumpManager.settingsViewController(), sender: nil)
+        tableView.reloadSections(IndexSet([Section.pump.rawValue]), with: .none)
         dismiss(animated: true, completion: nil)
     }
     

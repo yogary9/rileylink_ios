@@ -34,11 +34,9 @@ class DeviceDataManager {
     let podComms: PodComms
     
     var pumpManager: PumpManager? {
-        get {
-            return UserDefaults.standard.pumpManager
-        }
-        set {
-            UserDefaults.standard.pumpManager = newValue
+        didSet {
+            UserDefaults.standard.pumpManager = pumpManager
+            setupPump()
         }
     }
     
@@ -72,6 +70,11 @@ class DeviceDataManager {
     var lastHistoryAttempt: Date? = nil
     
     var lastGlucoseEntry: Date = Date(timeIntervalSinceNow: TimeInterval(hours: -24))
+    
+    private func setupPump() {
+        pumpManager?.pumpManagerDelegate = self
+    }
+
     
     private func uploadDeviceStatus(_ pumpStatus: NightscoutUploadKit.PumpStatus? /*, loopStatus: LoopStatus */) {
         
@@ -193,10 +196,65 @@ class DeviceDataManager {
         podComms = PodComms(podState: podState)
         
         podComms.delegate = self
+        
+        pumpManager = UserDefaults.standard.pumpManager
+        setupPump()
+        
 
         UIDevice.current.isBatteryMonitoringEnabled = true
     }
 }
+
+extension DeviceDataManager: PumpManagerDelegate {
+    func pumpManager(_ pumpManager: PumpManager, didAdjustPumpClockBy adjustment: TimeInterval) {
+    }
+    
+    func pumpManagerDidUpdatePumpBatteryChargeRemaining(_ pumpManager: PumpManager, oldValue: Double?) {
+    }
+    
+    func pumpManagerDidUpdateState(_ pumpManager: PumpManager) {
+        self.pumpManager = pumpManager
+    }
+    
+    func pumpManagerBLEHeartbeatDidFire(_ pumpManager: PumpManager) {
+    }
+    
+    func pumpManagerShouldProvideBLEHeartbeat(_ pumpManager: PumpManager) -> Bool {
+        return true
+    }
+    
+    func pumpManager(_ pumpManager: PumpManager, didUpdateStatus status: PumpManagerStatus) {
+        //nightscoutDataManager.upload(pumpStatus: status)
+    }
+    
+    func pumpManagerWillDeactivate(_ pumpManager: PumpManager) {
+        self.pumpManager = nil
+    }
+    
+    func pumpManager(_ pumpManager: PumpManager, didUpdatePumpRecordsBasalProfileStartEvents pumpRecordsBasalProfileStartEvents: Bool) {
+    }
+    
+    func pumpManager(_ pumpManager: PumpManager, didError error: PumpManagerError) {
+    }
+    
+    func pumpManager(_ pumpManager: PumpManager, didReadPumpEvents events: [NewPumpEvent], completion: @escaping (_ error: Error?) -> Void) {
+    }
+    
+    func pumpManager(_ pumpManager: PumpManager, didReadReservoirValue units: Double, at date: Date, completion: @escaping (_ result: PumpManagerResult<(newValue: ReservoirValue, lastValue: ReservoirValue?, areStoredValuesContinuous: Bool)>) -> Void) {
+    }
+    
+    func pumpManagerRecommendsLoop(_ pumpManager: PumpManager) {
+    }
+    
+    func startDateToFilterNewPumpEvents(for manager: PumpManager) -> Date {
+        return Date()
+    }
+    
+    func startDateToFilterNewReservoirEvents(for manager: PumpManager) -> Date {
+        return Date()
+    }
+}
+
 
 
 extension DeviceDataManager: PodCommsDelegate {

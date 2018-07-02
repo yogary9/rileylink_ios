@@ -15,7 +15,7 @@ open class RileyLinkSettingsViewController: UITableViewController, DeviceConnect
 
     open let devicesDataSource: RileyLinkDevicesTableViewDataSource
     
-    let rileyLinkPumpManager: RileyLinkPumpManager
+    open let rileyLinkPumpManager: RileyLinkPumpManager
 
     public init(rileyLinkPumpManager: RileyLinkPumpManager, devicesSectionIndex: Int, style: UITableViewStyle) {
         self.rileyLinkPumpManager = rileyLinkPumpManager
