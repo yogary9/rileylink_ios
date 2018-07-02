@@ -162,11 +162,10 @@ class RileyLinkListTableViewController: UITableViewController {
         let device = devices[indexPath.row]
         let vc = RileyLinkMinimedDeviceTableViewController(
             device: device,
-            deviceState: dataManager.deviceStates[device.peripheralIdentifier, default: state],
+            deviceState: dataManager.deviceStates[device.peripheralIdentifier, default: DeviceState()],
             pumpSettings: dataManager.pumpSettings,
             pumpState: dataManager.pumpState,
-            pumpOps: dataManager.pumpOps,
-            podComms: dataManager.podComms
+            pumpOps: dataManager.pumpOps
         )
 
         show(vc, sender: indexPath)
