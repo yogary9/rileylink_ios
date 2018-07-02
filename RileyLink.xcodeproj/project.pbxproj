@@ -380,6 +380,7 @@
 		C17BBC6A20E95ABE00902D72 /* SettingsImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6920E95ABE00902D72 /* SettingsImageTableViewCell.swift */; };
 		C17BBC6C20E95CA400902D72 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6B20E95CA400902D72 /* UITableViewCell.swift */; };
 		C17BBC7020E9815100902D72 /* PumpManagerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6F20E9815100902D72 /* PumpManagerState.swift */; };
+		C17BBC7720EA6C0F00902D72 /* OmniKitUI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C17BBC7620EA6C0F00902D72 /* OmniKitUI.xcassets */; };
 		C1842BBB1C8E184300DB42AC /* PumpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBA1C8E184300DB42AC /* PumpModel.swift */; };
 		C1842BBD1C8E7C6E00DB42AC /* PumpEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBC1C8E7C6E00DB42AC /* PumpEvent.swift */; };
 		C1842BBF1C8E855A00DB42AC /* PumpEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBE1C8E855A00DB42AC /* PumpEventType.swift */; };
@@ -973,9 +974,6 @@
 		C12198AC1C8F332500BC374C /* TimestampedPumpEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = TimestampedPumpEvent.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C12198B21C8F730700BC374C /* BolusWizardEstimatePumpEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = BolusWizardEstimatePumpEvent.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C12616431B685F0A001FAD87 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		C126164A1B685F93001FAD87 /* RileyLink.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RileyLink.xcdatamodel; sourceTree = "<group>"; };
-		C12616521B6892DB001FAD87 /* RileyLinkRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RileyLinkRecord.h; sourceTree = "<group>"; };
-		C12616531B6892DB001FAD87 /* RileyLinkRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RileyLinkRecord.m; sourceTree = "<group>"; };
 		C1271B061A9A34E900B7C949 /* Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Log.m; sourceTree = "<group>"; };
 		C1271B081A9A350400B7C949 /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
 		C1274F761D8232580002912B /* DailyTotal515PumpEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DailyTotal515PumpEvent.swift; sourceTree = "<group>"; };
@@ -1051,6 +1049,7 @@
 		C17BBC6920E95ABE00902D72 /* SettingsImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsImageTableViewCell.swift; sourceTree = "<group>"; };
 		C17BBC6B20E95CA400902D72 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		C17BBC6F20E9815100902D72 /* PumpManagerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpManagerState.swift; sourceTree = "<group>"; };
+		C17BBC7620EA6C0F00902D72 /* OmniKitUI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OmniKitUI.xcassets; sourceTree = "<group>"; };
 		C1842BBA1C8E184300DB42AC /* PumpModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PumpModel.swift; sourceTree = "<group>"; };
 		C1842BBC1C8E7C6E00DB42AC /* PumpEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PumpEvent.swift; sourceTree = "<group>"; };
 		C1842BBE1C8E855A00DB42AC /* PumpEventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PumpEventType.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1763,16 +1762,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		C12616451B685F35001FAD87 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				C12616521B6892DB001FAD87 /* RileyLinkRecord.h */,
-				C12616531B6892DB001FAD87 /* RileyLinkRecord.m */,
-				C12616491B685F93001FAD87 /* RileyLink.xcdatamodeld */,
-			);
-			name = CoreData;
-			sourceTree = "<group>";
-		};
 		C1274F7A1D8240D00002912B /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1800,6 +1789,7 @@
 				431CE7701F98564100255374 /* RileyLinkBLEKit */,
 				431CE77D1F98564200255374 /* RileyLinkBLEKitTests */,
 				43D5E78F1FAF7BFB004ACDB7 /* RileyLinkKitUI */,
+				C17BBC7520EA6BD900902D72 /* OmnikKitUI */,
 				4352A72620DEC9B700CAC200 /* MinimedKitUI */,
 				C1130F9C20159C28007D13DB /* OmniKit */,
 				C1130FA920159C28007D13DB /* OmniKitTests */,
@@ -1853,7 +1843,6 @@
 				C14FFC4D1D3D6D8E0049CF85 /* Models */,
 				C1B383341CD1BA6700CE7782 /* Managers */,
 				C1AA398B1AB67F6A00BC9E33 /* Extensions */,
-				C12616451B685F35001FAD87 /* CoreData */,
 				C12EA241198B436800309FA4 /* Supporting Files */,
 				C12616391B67CB9C001FAD87 /* Views */,
 				43462E8A1CCB06F500F958A8 /* AppDelegate.swift */,
@@ -1906,6 +1895,14 @@
 				C14FFC4F1D3D6DEF0049CF85 /* ServiceCredential.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		C17BBC7520EA6BD900902D72 /* OmnikKitUI */ = {
+			isa = PBXGroup;
+			children = (
+				C17BBC7620EA6C0F00902D72 /* OmniKitUI.xcassets */,
+			);
+			path = OmnikKitUI;
 			sourceTree = "<group>";
 		};
 		C1842BB91C8E15C600DB42AC /* PumpEvents */ = {
@@ -2712,6 +2709,7 @@
 				C12EA245198B436800309FA4 /* InfoPlist.strings in Resources */,
 				C12EA24D198B436800309FA4 /* Images.xcassets in Resources */,
 				7D7076951FE09311004AC8EA /* Localizable.strings in Resources */,
+				C17BBC7720EA6C0F00902D72 /* OmniKitUI.xcassets in Resources */,
 				C12EA26A198B442100309FA4 /* Storyboard.storyboard in Resources */,
 				C14FFC591D3D72D30049CF85 /* AuthenticationTableViewCell.xib in Resources */,
 			);
@@ -4693,19 +4691,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		C12616491B685F93001FAD87 /* RileyLink.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				C126164A1B685F93001FAD87 /* RileyLink.xcdatamodel */,
-			);
-			currentVersion = C126164A1B685F93001FAD87 /* RileyLink.xcdatamodel */;
-			path = RileyLink.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = C12EA22F198B436800309FA4 /* Project object */;
 }
