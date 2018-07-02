@@ -23,8 +23,9 @@ class RileyLinkListTableViewController: UITableViewController, DeviceConnectionP
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 44
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
         
         tableView.register(RileyLinkDeviceTableViewCell.self, forCellReuseIdentifier: RileyLinkDeviceTableViewCell.className)
         tableView.register(SettingsImageTableViewCell.self, forCellReuseIdentifier: SettingsImageTableViewCell.className)
@@ -44,8 +45,8 @@ class RileyLinkListTableViewController: UITableViewController, DeviceConnectionP
     }
     
     fileprivate enum Section: Int, CaseCountable {
-        case devices = 0
-        case pump
+        case pump = 0
+        case devices
     }
     
     fileprivate enum PumpActionRow: Int, CaseCountable {
@@ -146,7 +147,6 @@ class RileyLinkListTableViewController: UITableViewController, DeviceConnectionP
     public override func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
         return devicesDataSource.tableView(tableView, estimatedHeightForHeaderInSection: section)
     }
-
     
     // MARK: - UITableViewDelegate
 
