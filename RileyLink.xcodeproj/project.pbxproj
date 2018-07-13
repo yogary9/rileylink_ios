@@ -381,6 +381,8 @@
 		C17BBC6C20E95CA400902D72 /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6B20E95CA400902D72 /* UITableViewCell.swift */; };
 		C17BBC7020E9815100902D72 /* PumpManagerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC6F20E9815100902D72 /* PumpManagerState.swift */; };
 		C17BBC7720EA6C0F00902D72 /* OmniKitUI.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C17BBC7620EA6C0F00902D72 /* OmniKitUI.xcassets */; };
+		C17BBC7B20EB344A00902D72 /* OmnipodPumpManagerSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17BBC7A20EB344A00902D72 /* OmnipodPumpManagerSetupViewController.swift */; };
+		C17BBC8020EB356F00902D72 /* OmnipodPumpManager.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C17BBC7E20EB356F00902D72 /* OmnipodPumpManager.storyboard */; };
 		C1842BBB1C8E184300DB42AC /* PumpModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBA1C8E184300DB42AC /* PumpModel.swift */; };
 		C1842BBD1C8E7C6E00DB42AC /* PumpEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBC1C8E7C6E00DB42AC /* PumpEvent.swift */; };
 		C1842BBF1C8E855A00DB42AC /* PumpEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1842BBE1C8E855A00DB42AC /* PumpEventType.swift */; };
@@ -1050,6 +1052,8 @@
 		C17BBC6B20E95CA400902D72 /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		C17BBC6F20E9815100902D72 /* PumpManagerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PumpManagerState.swift; sourceTree = "<group>"; };
 		C17BBC7620EA6C0F00902D72 /* OmniKitUI.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OmniKitUI.xcassets; sourceTree = "<group>"; };
+		C17BBC7A20EB344A00902D72 /* OmnipodPumpManagerSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmnipodPumpManagerSetupViewController.swift; sourceTree = "<group>"; };
+		C17BBC7F20EB356F00902D72 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/OmnipodPumpManager.storyboard; sourceTree = "<group>"; };
 		C1842BBA1C8E184300DB42AC /* PumpModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PumpModel.swift; sourceTree = "<group>"; };
 		C1842BBC1C8E7C6E00DB42AC /* PumpEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PumpEvent.swift; sourceTree = "<group>"; };
 		C1842BBE1C8E855A00DB42AC /* PumpEventType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = PumpEventType.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1789,7 +1793,7 @@
 				431CE7701F98564100255374 /* RileyLinkBLEKit */,
 				431CE77D1F98564200255374 /* RileyLinkBLEKitTests */,
 				43D5E78F1FAF7BFB004ACDB7 /* RileyLinkKitUI */,
-				C17BBC7520EA6BD900902D72 /* OmnikKitUI */,
+				C17BBC7520EA6BD900902D72 /* OmniKitUI */,
 				4352A72620DEC9B700CAC200 /* MinimedKitUI */,
 				C1130F9C20159C28007D13DB /* OmniKit */,
 				C1130FA920159C28007D13DB /* OmniKitTests */,
@@ -1897,12 +1901,22 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		C17BBC7520EA6BD900902D72 /* OmnikKitUI */ = {
+		C17BBC7520EA6BD900902D72 /* OmniKitUI */ = {
 			isa = PBXGroup;
 			children = (
+				C17BBC7E20EB356F00902D72 /* OmnipodPumpManager.storyboard */,
 				C17BBC7620EA6C0F00902D72 /* OmniKitUI.xcassets */,
+				C17BBC7920EB342100902D72 /* Setup */,
 			);
-			path = OmnikKitUI;
+			path = OmniKitUI;
+			sourceTree = "<group>";
+		};
+		C17BBC7920EB342100902D72 /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				C17BBC7A20EB344A00902D72 /* OmnipodPumpManagerSetupViewController.swift */,
+			);
+			path = Setup;
 			sourceTree = "<group>";
 		};
 		C1842BB91C8E15C600DB42AC /* PumpEvents */ = {
@@ -2710,6 +2724,7 @@
 				C12EA24D198B436800309FA4 /* Images.xcassets in Resources */,
 				7D7076951FE09311004AC8EA /* Localizable.strings in Resources */,
 				C17BBC7720EA6C0F00902D72 /* OmniKitUI.xcassets in Resources */,
+				C17BBC8020EB356F00902D72 /* OmnipodPumpManager.storyboard in Resources */,
 				C12EA26A198B442100309FA4 /* Storyboard.storyboard in Resources */,
 				C14FFC591D3D72D30049CF85 /* AuthenticationTableViewCell.xib in Resources */,
 			);
@@ -3223,6 +3238,7 @@
 				C17BBC7020E9815100902D72 /* PumpManagerState.swift in Sources */,
 				C17BBC6C20E95CA400902D72 /* UITableViewCell.swift in Sources */,
 				C14FFC631D3D7CE20049CF85 /* NightscoutService.swift in Sources */,
+				C17BBC7B20EB344A00902D72 /* OmnipodPumpManagerSetupViewController.swift in Sources */,
 				C1B383361CD1BA8100CE7782 /* DeviceDataManager.swift in Sources */,
 				C1271B071A9A34E900B7C949 /* Log.m in Sources */,
 				C14FFC531D3D70170049CF85 /* ValidatingIndicatorView.swift in Sources */,
@@ -3528,6 +3544,14 @@
 				7D68AACC1FE31CE500522C49 /* ru */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C17BBC7E20EB356F00902D72 /* OmnipodPumpManager.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C17BBC7F20EB356F00902D72 /* Base */,
+			);
+			name = OmnipodPumpManager.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
