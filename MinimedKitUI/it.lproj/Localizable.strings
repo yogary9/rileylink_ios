@@ -5,7 +5,7 @@
 "%1$@  %2$@/%3$@  %4$@" = "%1$@  %2$@/%3$@  %4$@";
 
 /* The format string describing number of basal schedule entries: (1: number of entries) */
-"%1$@ basal schedule entries\n" = "%1$@ inserimento basale\n";
+"%1$@ basal schedule entries\n" = "%1$@ inserimento programmazione basale\n";
 
 /* The format string describing units of insulin remaining: (1: number of units) */
 "%1$@ Units of insulin remaining\n" = "%1$@ Unità insulina residua\n";
@@ -23,7 +23,7 @@
 "Awake Until" = "Attivo sino";
 
 /* The title text for the basal rate schedule */
-"Basal Rates" = "Quantita' Basali";
+"Basal Rates" = "Velocità Basali";
 
 /* The format string describing pump battery voltage: (1: battery voltage) */
 "Battery: %1$@ volts\n" = "Batteria: %1$@ volts\n";
@@ -53,7 +53,7 @@
 "Configuration" = "Configurazione";
 
 /* Button title to connect to pump during setup */
-"Connect" = "Collegarsi";
+"Connect" = "Collegati";
 
 /* The title of the cell showing BLE connection state */
 "Connection State" = "Stato di Connessione";
@@ -63,7 +63,7 @@
 "Delete Pump" = "Elimina Microinfusore";
 
 /* Title text for delivery limits */
-"Delivery Limits" = "Limiti di Consegna";
+"Delivery Limits" = "Limiti di erogazione";
 
 /* The title of the section describing the device */
 "Device" = "Dispositivo";
@@ -81,7 +81,7 @@
 "Enabled Diagnostic LEDs" = "LED Diagnostici Abilitati";
 
 /* The title of the command to fetch recent glucose */
-"Fetch Enlite Glucose" = "Sincronizzare Glicemie Enlite";
+"Fetch Enlite Glucose" = "Sincronizzare Glicemie da Enlite";
 
 /* The title of the command to fetch recent history */
 "Fetch Recent History" = "Sincronizzare Storia Recente";
