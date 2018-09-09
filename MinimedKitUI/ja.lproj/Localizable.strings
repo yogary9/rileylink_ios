@@ -129,7 +129,7 @@
 "Preferred Data Source" = "推奨データソース";
 
 /* The title of the section describing the pump */
-"Pump" = "ポンプ";
+"Pump" = "ポンプ　１";
 
 /* The title text for the battery type value */
 "Pump Battery Type" = "ポンプ電池の種類";
