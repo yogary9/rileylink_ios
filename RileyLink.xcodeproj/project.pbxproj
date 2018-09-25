@@ -212,6 +212,7 @@
 		43F348061D596270009933DC /* HKUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F348051D596270009933DC /* HKUnit.swift */; };
 		43FF221C1CB9B9DE00024F30 /* NSDateComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FF221B1CB9B9DE00024F30 /* NSDateComponents.swift */; };
 		492526711E4521FB00ACBA5F /* NoteNightscoutTreatment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 492526701E4521FB00ACBA5F /* NoteNightscoutTreatment.swift */; };
+		4E96AE1B215A5731007E9668 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E96AE19215A5731007E9668 /* InfoPlist.strings */; };
 		541688DB1DB820BF005B1891 /* ReadCurrentGlucosePageMessageBodyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541688DA1DB820BF005B1891 /* ReadCurrentGlucosePageMessageBodyTests.swift */; };
 		541688DD1DB82213005B1891 /* ReadCurrentGlucosePageMessageBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541688DC1DB82213005B1891 /* ReadCurrentGlucosePageMessageBody.swift */; };
 		541688DF1DB82E72005B1891 /* TimestampedGlucoseEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541688DE1DB82E72005B1891 /* TimestampedGlucoseEvent.swift */; };
@@ -794,6 +795,7 @@
 		43FB610B20DDF55F002B996B /* LoopKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LoopKit.framework; path = Carthage/Build/iOS/LoopKit.framework; sourceTree = "<group>"; };
 		43FF221B1CB9B9DE00024F30 /* NSDateComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateComponents.swift; sourceTree = "<group>"; };
 		492526701E4521FB00ACBA5F /* NoteNightscoutTreatment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteNightscoutTreatment.swift; sourceTree = "<group>"; };
+		4E96AE1A215A5731007E9668 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		541688DA1DB820BF005B1891 /* ReadCurrentGlucosePageMessageBodyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadCurrentGlucosePageMessageBodyTests.swift; sourceTree = "<group>"; };
 		541688DC1DB82213005B1891 /* ReadCurrentGlucosePageMessageBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadCurrentGlucosePageMessageBody.swift; sourceTree = "<group>"; };
 		541688DE1DB82E72005B1891 /* TimestampedGlucoseEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimestampedGlucoseEvent.swift; sourceTree = "<group>"; };
@@ -1494,6 +1496,7 @@
 			children = (
 				43722FB01CB9F7640038B7F2 /* RileyLinkKit.h */,
 				43722FB21CB9F7640038B7F2 /* Info.plist */,
+				4E96AE19215A5731007E9668 /* InfoPlist.strings */,
 				437F54061FBD52120070FF2C /* DeviceState.swift */,
 				43323EA91FA81C1B003FB0FA /* RileyLinkDevice.swift */,
 				4352A74020DED23000CAC200 /* RileyLinkDeviceManager.swift */,
@@ -2539,6 +2542,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E96AE1B215A5731007E9668 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3249,6 +3253,14 @@
 				7DA1788E212F339000590D24 /* ja */,
 			);
 			name = MinimedPumpManager.storyboard;
+			sourceTree = "<group>";
+		};
+		4E96AE19215A5731007E9668 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E96AE1A215A5731007E9668 /* ja */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		7D23674521252A5E0028B67D /* InfoPlist.strings */ = {
