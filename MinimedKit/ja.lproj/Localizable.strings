@@ -11,7 +11,7 @@
 "Alkaline" = "アルカリ";
 
 /* The format string description of a BasalProfileStartPumpEvent. (1: The index of the profile)(2: The basal rate) */
-"Basal Profile %1$@: %2$@ U/hour" = "基礎プロファイル %1$@: %2$@ U/時";
+"Basal Profile %1$@: %2$@ U/hour" = "基礎プロファイル %1$@: %2$@ U/hr";
 
 /* Pump error code when bolus is in progress */
 "Bolus in progress" = "ボーラス注入中";
@@ -77,7 +77,7 @@
 "RileyLink radio tune failed" = "RileyLink 無線に失敗しました";
 
 /* The format string description of a TempBasalPumpEvent. (1: The rate of the temp basal in minutes) */
-"Temporary Basal: %1$.3f U/hour" = "一時基礎レート: %1$.3f U/時";
+"Temporary Basal: %1$.3f U/hour" = "一時基礎レート: %1$.3f U/hr";
 
 /* The format string description of a TempBasalDurationPumpEvent. (1: The duration of the temp basal in minutes) */
 "Temporary Basal: %1$d min" = "一時基礎レート: %1$d 分";

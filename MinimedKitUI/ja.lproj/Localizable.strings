@@ -5,10 +5,10 @@
 "%1$@  %2$@/%3$@  %4$@" = "%1$@  %2$@/%3$@  %4$@";
 
 /* The format string describing number of basal schedule entries: (1: number of entries) */
-"%1$@ basal schedule entries\n" = "基礎スケジュール記入 %1$@ \n";
+"%1$@ basal schedule entries\n" = "%1$@ 個の基礎スケジュールエントリ\n";
 
 /* The format string describing units of insulin remaining: (1: number of units) */
-"%1$@ Units of insulin remaining\n" = "インスリン 残 %1$@ 単位 \n";
+"%1$@ Units of insulin remaining\n" = "インスリン 残り %1$@ U \n";
 
 /* The format string for displaying an offset from a time zone: (1: GMT)(2: -)(3: 4:00) */
 "%1$@%2$@%3$@" = "%1$@%2$@%3$@";
@@ -69,16 +69,16 @@
 "Device" = "機器";
 
 /* The title of the command to discover commands */
-"Discover Commands" = "コマンドを見つける";
+"Discover Commands" = "コマンドを探す";
 
 /* Progress message for discovering commands. */
-"Discovering commands…" = "コマンドを見つけています…";
+"Discovering commands…" = "コマンドを探しています…";
 
 /* The title of the command to enable diagnostic LEDs */
 "Enable Diagnostic LEDs" = "診断 LED を有効にする";
 
 /* Progress message for enabling diagnostic LEDs */
-"Enabled Diagnostic LEDs" = "診断 LED を無効にする";
+"Enabled Diagnostic LEDs" = "診断 LED が有効です";
 
 /* The title of the command to fetch recent glucose */
 "Fetch Enlite Glucose" = "Enliteのグルコースを取得";
@@ -129,7 +129,7 @@
 "Preferred Data Source" = "推奨データソース";
 
 /* The title of the section describing the pump */
-"Pump" = "ポンプ　9.25_2";
+"Pump" = "ポンプ　9.29_1";
 
 /* The title text for the battery type value */
 "Pump Battery Type" = "ポンプ電池の種類";
@@ -192,4 +192,7 @@
 
 /* The detail text for an unknown pump model */
 "Unknown" = "不明";
+
+/* The title of the cell showing uptime */
+"Uptime" = "アップタイム";
 
