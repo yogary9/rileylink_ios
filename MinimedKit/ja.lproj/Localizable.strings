@@ -53,7 +53,7 @@
 "Minimed 500/700 Series" = "Minimed 500/700 シリーズ";
 
 /* Describing the North America pump region */
-"North America" = "北米";
+"North America" = "NA";
 
 /* No comment provided by engineer. */
 "Pump did not respond" = "ポンプが反応しません";
@@ -95,5 +95,5 @@
 "Unknown response during %1$@: %2$@" = "反応が不明 %1$@: %2$@";
 
 /* Describing the worldwide pump region */
-"World-Wide" = "ワールドワイド";
+"World-Wide" = "WW";
 
