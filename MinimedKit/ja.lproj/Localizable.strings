@@ -17,7 +17,7 @@
 "Bolus in progress" = "ボーラス注入中";
 
 /* Suggestions for diagnosing a command refused pump error */
-"Check that the pump is not suspended or priming, or has a percent temp basal type" = "ポンプが停止していないか、チューブの充填中でないか、または基礎レートが一時的に変更になっていないか確認してください";
+"Check that the pump is not suspended or priming, or has a percent temp basal type" = "ポンプが停止またはプライム中でないか、または一時基礎レートがパーセントに設定されていないか確認してください。";
 
 /* Pump error code returned when command refused */
 "Command refused" = "コマンド拒否";
